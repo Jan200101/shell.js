@@ -5,7 +5,6 @@ Shell = (async function(term, msg, interactive) {
     var sleep, termmsg, x, i;
 
     interactive = typeof interactive !== 'undefined' ? interactive : false;
-    console.log(interactive);
 
     function sleep(milliseconds) {
         return new Promise((resolve)=>setTimeout(resolve, milliseconds));
