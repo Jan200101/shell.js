@@ -40,7 +40,7 @@ Shell = (async function(term, msg, interactive) {
         }
         termmsg += msg[x];
         term.innerHTML = termmsg + "_";
-         await sleep(30);
+        await sleep(30);
     }
     if (interactive)
     {
