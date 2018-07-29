@@ -1,10 +1,11 @@
-Shell = (async function(term, msg, interactive) {
+Shell = (async function(term, msg, interactive = false, debug = false)
+{
     // term: html object to insert msg into
     // msg: string to insert
     //      supports \n
+    // interactive: allows for input after all text has been displayed
+    // debug: shows key code of key pressed
     var sleep, termmsg, x, i;
-
-    interactive = typeof interactive !== 'undefined' ? interactive : false;
 
     function sleep(milliseconds) {
         return new Promise((resolve)=>setTimeout(resolve, milliseconds));
@@ -43,19 +44,37 @@ Shell = (async function(term, msg, interactive) {
     }
     if (interactive)
     {
+        var modifier = 32;
         document.addEventListener('keydown', function(event) {
             var keyCode = event.keyCode;
-            if (keyCode > 127)
+            if (debug)
             {
-                keyCode -= 144;
+                console.log(keyCode);
             }
+            if (keyCode == 16 || keyCode == 20)
+            {
+                if (modifier != 0)
+                {
+                    modifier = 0;
+                }
+                else
+                {
+                    modifier = 32;
+                }
+                return;
+            }
+            /*  if (keyCode > 127)
+             *{
+             *   keyCode -= 144;
+             *}
+             */
             if (keyCode > 31 && keyCode < 127)
             {
                 if (term.innerHTML.endsWith("_"))
                 {
                     term.innerHTML = term.innerHTML.slice(0, -1);
                 }
-                term.innerHTML += String.fromCharCode(keyCode).toLowerCase();
+                term.innerHTML += String.fromCharCode(keyCode + modifier);
             }
             else if (keyCode == 13)
             {
